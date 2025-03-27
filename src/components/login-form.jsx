@@ -46,7 +46,9 @@ export function LoginForm({ className, ...props}) {
           if (typeof window !== "undefined"){
               localStorage.setItem('userToken', response.data.token)
           }
-          router.push('/pages/panel')
+          setTimeout(() => {
+            router.push('/pages/professional')
+          }, 1500)
         }
       } catch(error){
           if(error){

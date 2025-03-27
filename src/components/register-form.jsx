@@ -54,7 +54,9 @@ export function Register({ className, ...props}) {
                   localStorage.setItem('userToken', response.data.token)
                   localStorage.setItem('userData', JSON.stringify(response.data.user))
               }
-              router.push('/pages/panel')
+              setTimeout(() => {
+                router.push('/pages/professional')
+              }, 1500)
           }
      
       } catch(error){
