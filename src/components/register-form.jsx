@@ -142,9 +142,9 @@ export function Register({ className, ...props}) {
                     
 
                     <div className="mt-4 text-center text-sm">
-                        Não tem uma conta?{" "}
-                        <a href="#" className="underline underline-offset-4">
-                            Criar Conta
+                       Já tem uma conta?{" "}
+                        <a href="/" className="underline underline-offset-4">
+                            Faça Login
                         </a>
                     </div>
                 </div>
