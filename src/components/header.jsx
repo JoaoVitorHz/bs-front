@@ -11,7 +11,8 @@ export default function Header(){
             <nav className="flex gap-5 items-center">
                 <span onClick={() => router.push()}>Painel</span>
                 <span onClick={() => router.push('/pages/books')}>Livros</span>
-                <span onClick={() => router.push()}>Profissionais</span>
+                <span onClick={() => router.push('/pages/study-room')}>Salas de Estudo</span>
+                <span onClick={() => router.push('')}>Profissionais</span>
                 <span onClick={() => {
                         router.push('/pages/finance')
                 }}>Financeiro</span>
