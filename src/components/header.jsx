@@ -9,12 +9,12 @@ export default function Header(){
                 <h1 >Book Flow</h1>
             </div>
             <nav className="flex gap-5 items-center">
-                <a href="">Painel</a>
-                <a href="">Livros</a>
-                <a href="">Profissionais</a>
-                <span    onClick={() => {
+                <span onClick={() => router.push()}>Painel</span>
+                <span onClick={() => router.push('/pages/books')}>Livros</span>
+                <span onClick={() => router.push()}>Profissionais</span>
+                <span onClick={() => {
                         router.push('/pages/finance')
-                    }}>Financeiro</span>
+                }}>Financeiro</span>
                 <CiLogout
                     className="text-2xl cursor-pointer" 
                     onClick={() => {
