@@ -21,7 +21,6 @@ export default function ListProfession(props){
                     <TableHead>Nome</TableHead>
                     <TableHead>Email</TableHead>
                     <TableHead>Telefone</TableHead>
-                    <TableHead>Serviços</TableHead>
                     <TableHead>Ações</TableHead>
                 </TableRow>
             </TableHeader>
@@ -30,7 +29,6 @@ export default function ListProfession(props){
                     <TableCell className="font-medium">Isabella</TableCell>
                     <TableCell>isabella@gmail.com</TableCell>
                     <TableCell>(11) 99818-8091</TableCell>
-                    <TableCell>Cabelo</TableCell>
                     <TableCell className="flex itens-center gap-5">
                                 <HiOutlinePencilAlt  
                                     className="text-xl cursor-pointer hover:text-softBlue transition-[300ms]" 

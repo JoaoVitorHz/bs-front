@@ -39,39 +39,53 @@ export function Register({ className, ...props}) {
   
   const { control, handleSubmit, register, formState: { errors } } = useForm({resolver: zodResolver(RegisterFormSchema)});
 
-  async function HandleCreateProfession(data){
-    console.log('teste')
-      try{
-          const response = await api.post('auth/register', {
-              ...data, 
-          })
-          if(response.data.user.id){
-              setIsSingUpError(false)
-              setMensageStatusSingUp('Conta criada com sucesso!')
-              setShowCardError(true)
+    async function HandleCreateProfession(data) {
+  try {
+    // Criando um novo usuário com ID único
+    const newUser = {
+      id: Date.now(), // ID único com timestamp
+        ...data
+    }
 
-              if (typeof window !== "undefined"){
-                  localStorage.setItem('userToken', response.data.token)
-                  localStorage.setItem('userData', JSON.stringify(response.data.user))
-              }
-              setTimeout(() => {
-                router.push('/pages/professional')
-              }, 1500)
-          }
-     
-      } catch(error){
-          if(error){
-              setIsSingUpError(true)
-              setMensageStatusSingUp(error.response.data.errors)
-              setShowCardError(true)
-
-              setTimeout(() => {
-                  setMensageStatusSingUp('')
-                  setShowCardError(false)
-              }, 5000)
-          }
+    // Recuperar o array de usuários existente (ou iniciar um novo)
+    let existingUsers = [];
+    if (typeof window !== "undefined") {
+      const usersFromStorage = localStorage.getItem("users");
+      if (usersFromStorage) {
+        existingUsers = JSON.parse(usersFromStorage);
       }
+
+      // Adicionar o novo usuário ao array
+      existingUsers.push(newUser);
+
+      // Salvar novamente no localStorage
+      localStorage.setItem("users", JSON.stringify(existingUsers));
+
+      // Simular login (salvar o "usuário logado" e "token")
+      const fakeToken = `token-${newUser.id}`;
+      localStorage.setItem("userToken", fakeToken);
+      localStorage.setItem("userData", JSON.stringify(newUser));
+    }
+
+    setIsSingUpError(false);
+    setMensageStatusSingUp("Conta criada com sucesso!");
+    setShowCardError(true);
+
+    setTimeout(() => {
+      router.push("/pages/professional");
+    }, 1500);
+
+  } catch (error) {
+    setIsSingUpError(true);
+    setMensageStatusSingUp("Erro ao criar conta");
+    setShowCardError(true);
+
+    setTimeout(() => {
+      setMensageStatusSingUp('');
+      setShowCardError(false);
+    }, 5000);
   }
+}
 
 
   useEffect(() => {

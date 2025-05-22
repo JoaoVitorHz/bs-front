@@ -34,35 +34,53 @@ export function LoginForm({ className, ...props}) {
   const [showError, setShowError] = useState(false)
   const [errorMenssage, setErrorMenssage] = useState('');
 
-    async function HandleCreateProfession(data){
-      try{
-        const response = await api.post('auth/login', {
-          ...data 
-        })
-        if(response.data.user.id){
-          setIsError(false)
-          setShowError(true)
-          setErrorMenssage('Login feito com sucesso')
-          if (typeof window !== "undefined"){
-              localStorage.setItem('userToken', response.data.token)
-          }
-          setTimeout(() => {
-            router.push('/pages/professional')
-          }, 1500)
-        }
-      } catch(error){
-          if(error){
-              setIsError(true)
-              setErrorMenssage(error.response.data.errors)
-              setShowError(true)
+    async function HandleCreateProfession(data) {
+  try {
+    if (typeof window !== "undefined") {
+      const usersFromStorage = localStorage.getItem("users");
+      const users = usersFromStorage ? JSON.parse(usersFromStorage) : [];
 
-              setTimeout(() => {
-                  setErrorMenssage('')
-                  setShowError(false)
-              }, 10000)
-          }
-        }
+      // Verifica se existe algum usuário com o email e senha fornecidos
+      const foundUser = users.find(
+        (user) =>
+          user.email === data.email && user.password === data.password
+      );
+
+      if (foundUser) {
+        // Simula o token e salva os dados
+        const fakeToken = `token-${foundUser.id}`;
+        localStorage.setItem("userToken", fakeToken);
+        localStorage.setItem("userData", JSON.stringify(foundUser));
+
+        setIsError(false);
+        setErrorMenssage("Login feito com sucesso!");
+        setShowError(true);
+
+        setTimeout(() => {
+          router.push("/pages/professional");
+        }, 1500);
+      } else {
+        setIsError(true);
+        setErrorMenssage("Email ou senha inválidos.");
+        setShowError(true);
+
+        setTimeout(() => {
+          setErrorMenssage("");
+          setShowError(false);
+        }, 4000);
+      }
     }
+  } catch (error) {
+    setIsError(true);
+    setErrorMenssage("Erro ao tentar logar.");
+    setShowError(true);
+
+    setTimeout(() => {
+      setErrorMenssage("");
+      setShowError(false);
+    }, 4000);
+  }
+}
   return (
     (<div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -77,7 +95,7 @@ export function LoginForm({ className, ...props}) {
                 onSubmit={handleSubmit(HandleCreateProfession)}
             >
                 {showError &&
-                    <div className={`w-full p-2 flex justify-center text-white rounded ${isError ? 'bg-softPink' : 'bg-green-600'}`}>
+                    <div className={`w-full p-2 flex justify-center text-white rounded ${isError ? 'bg-red-700' : 'bg-green-600'}`}>
                         {errorMenssage}
                     </div>
                 }
