@@ -19,7 +19,7 @@ export default function Header(){
                 <CiLogout
                     className="text-2xl cursor-pointer" 
                     onClick={() => {
-                        localStorage.clear(); 
+                        // localStorage.clear(); 
                         router.push('/')
                     }}
                 />
