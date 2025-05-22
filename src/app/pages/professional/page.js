@@ -1,5 +1,7 @@
 'use client'
+import CreateProfession from "@/components/professional/CreateProfession";
 import ListProfession from "@/components/professional/list-professional";
+import UpdateProfession from "@/components/professional/UpdateProfession";
 import { useState } from "react"
 
 import { FaPlus } from "react-icons/fa6";
@@ -7,6 +9,14 @@ import { MdClear } from "react-icons/md";
 
 export default function Page(){
     const [showCreate, setShowCreate] = useState(false)
+    const [showUpdate, setShowUpdate] = useState(false)
+    const [userSelected, setUserSelected] = useState()
+
+    const [refresh, setRefresh] = useState(false);
+
+    function updateListProfession() {
+        setRefresh(prev => !prev);
+    }
 
     return(
         <div className="w-full ">
@@ -27,8 +37,29 @@ export default function Page(){
                 </div>
 
                 <div>
-                    <ListProfession />
+                    <ListProfession 
+                        refresh={refresh}  
+                        showModalUpdate={(user) => {
+                            setShowUpdate(true)
+                            setUserSelected(user)
+                        } }
+                    />
                 </div>
+
+                {showCreate && 
+                    <CreateProfession 
+                        closeModal={() => setShowCreate(false)}
+                        updateListProfession={updateListProfession}
+                    />
+                }
+
+                {showUpdate && 
+                    <UpdateProfession 
+                        closeModal={() => setShowUpdate(false)}
+                        updateListProfession={updateListProfession}
+                        professionData={userSelected}
+                    />
+                }
 
             </div>
         </div>
