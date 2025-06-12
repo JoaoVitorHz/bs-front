@@ -7,8 +7,6 @@ import { z } from "zod";
 import { useForm } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from "react";
-import Maturity from "./Maturity";
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export default function ModalAccountingEntry(props){
     const [showSelectPayment, setShowSelectPayment] = useState(false)
@@ -30,13 +28,6 @@ export default function ModalAccountingEntry(props){
     const { control, handleSubmit, register, setValue, formState: { errors } } = useForm({resolver: zodResolver(RegisterFormSchema)});
 
     async function HandleCreateFinance(data){
-        console.log(data)
-        if(!maturity){
-            setMaturityError(true)
-            return
-        }
-        setMaturityError(false)
-
         try {
             const selectDoctor = (typeof window !== "undefined") ? JSON.parse(localStorage.getItem('selectDoctor')) : '';
 
@@ -44,7 +35,6 @@ export default function ModalAccountingEntry(props){
                 ...data, 
                 doctorID: selectDoctor?.id ?? null, 
                 clinic_id: selectDoctor?.clinic_id ?? null,
-                maturity,
                 id: Date.now(), // Gerar um ID único para cada lançamento
             }
 
@@ -73,12 +63,6 @@ export default function ModalAccountingEntry(props){
         }
     }
 
-    useEffect(() => {
-        if(maturity){
-            setMaturityError(false)
-        } 
-    }, [maturity])
-
     return(
         <div className="fixed top-0 left-0 bg-black/50 w-screen h-screen flex justify-center items-center">
             <form 
@@ -91,15 +75,6 @@ export default function ModalAccountingEntry(props){
                 </div>
 
                 <div className="flex flex-col gap-5">
-                    <div className="flex flex-1 flex-col">
-                        <span className="font-medium text-sm">Vencimento</span>
-                        <DatePicker
-                            label="Seleciona uma data"
-                            value={maturity}
-                            onChange={(date) => setMaturity(date)}
-                        />
-                        {maturityError && <span className="text-xs text-red-600">Por favor selecione uma data de vencimento.</span>}
-                    </div>
 
                     <Inputs control={control} name="description" inputTitle="Descrição" />
                     <Inputs control={control} name="value" inputTitle="Valor" />
