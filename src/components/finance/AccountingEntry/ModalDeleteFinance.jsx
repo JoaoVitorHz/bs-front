@@ -8,29 +8,20 @@ export function ModalDeleteFinance(props){
     const [showCardError, setShowCardError] = useState(false)
     const [mensageStatusSingUp, setMensageStatus] = useState('');
 
-    async function DeleteFinance(){
-        try{
-            const response = await api.delete('finance/' + props.dataFinance.id)
-            if(response.data.id){
-                setIsSingUpError(false)
-                setMensageStatus('Entrada deletada com sucesso!')
-                setShowCardError(true)
-                setTimeout(() => {
-                    props.updateListFinance()
-                }, 1500)
-            }
-        }catch(error){
-            if(error){
-                setIsSingUpError(true)
-                setMensageStatus(error.response.data.errors)
-                setShowCardError(true)
+    function DeleteFinance(recordToRemove) {
+        if (typeof window === 'undefined') return; 
 
-                setTimeout(() => {
-                    setMensageStatus('')
-                    setShowCardError(false)
-                }, 5000)
-            }
-        }
+        const financeRecords = JSON.parse(localStorage.getItem('financeEntries')) || [];
+        const updatedRecords = financeRecords.filter(record => record.id !== props.dataFinance.id);
+
+        localStorage.setItem('financeEntries', JSON.stringify(updatedRecords));
+
+        setIsSingUpError(false)
+            setMensageStatus('Entrada deletada com sucesso!')
+            setShowCardError(true)
+            setTimeout(() => {
+                props.updateListFinance()
+        }, 1500)
     }
 
     return(
@@ -46,13 +37,13 @@ export function ModalDeleteFinance(props){
                 }
                 <div className="flex gap-3">
                     <button 
-                        className="min-w-[150px] h-[40px] px-3 bg-softPink rounded-md text-white uppercase font-medium text-sm"
+                        className="min-w-[150px] h-[40px] px-3 bg-red-500 rounded-md text-white uppercase font-medium text-sm"
                         onClick={() => props.closeModal()}
                     >
                         Cancelar
                     </button>
                     <button 
-                        className="min-w-[150px] h-[40px] px-3 bg-softBlue rounded-md text-white uppercase font-medium text-sm"
+                        className="min-w-[150px] h-[40px] px-3 bg-green-400 rounded-md text-white uppercase font-medium text-sm"
                         onClick={() => DeleteFinance()}
                     >
                         Apagar

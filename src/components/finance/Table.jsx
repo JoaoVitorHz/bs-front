@@ -14,6 +14,9 @@ import { api } from "@/service/api";
 import { useEffect, useState } from "react";
 
 export default function TableFinance(props){
+
+    console.log(props)
+
     function FormatDate(isoDate){
         const date = new Date(isoDate)
         return date.toLocaleDateString("pt-BR");

@@ -17,30 +17,20 @@ export default function Finance(){
     const [totalFinance, setTotalFinance] = useState();
     const [financeUpdate, setFinanceUpdate] = useState([])
 
-    const [inicialDate, setInicialDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-
-    const [isFilter, setIsFilter] = useState(false)
-
     async function GetFinance(){
-        let selectDoctor = (typeof window !== "undefined") ? JSON.parse(localStorage.getItem('selectDoctor')) : '';
-        let response = await api.get('/finance/getAll', {
-            params: {
-                doctorID: selectDoctor.id,
-                clinic_id: selectDoctor.clinic_id
-            }
-        })
-        setDataFinance(response.data.finance)
-        setTotalFinance(response.data.total)
+       try {
+            const storedData = JSON.parse(localStorage.getItem('financeEntries')) || [];
+              setDataFinance(storedData)
+            return storedData;
+        } catch (error) {
+            console.error("Erro ao ler os dados do localStorage:", error);
+            return [];
+        }
     }
-
  
     useEffect(() => {
-        // GetFinance();
+        GetFinance();
     }, [])
-
-    let [textFitler, setTextFilter] = useState('Lucro líquido:')
-
 
     return(
         <div className="w-4/5 m-auto bg-white mt-5 p-3 flex flex-col gap-14">
@@ -48,7 +38,6 @@ export default function Finance(){
             <div className="w-full flex justify-between items-center">
                 <div className="flex flex-col gap-3">
                     <span className="text-2xl font-bold">Financeiro</span>
-                    <span className="text-sm font-bold text-gray-600">{textFitler} {totalFinance?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
                 </div>
 
                 <div className="flex gap-2">
