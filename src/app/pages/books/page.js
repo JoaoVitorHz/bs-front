@@ -24,7 +24,7 @@ export default function Page(){
 
                 <div className="w-full flex gap-5 flex-col justify-between ">
                     <span className="text-2xl font-bold text-gray-500">Livros</span>
-                    <span>Crie e gerencia todos os Livros do seu salão!</span>
+                    <span>Crie e gerencia todos os Livros da biblioteca!</span>
                     <div>
                         <button 
                             className="flex justify-center items-center gap-2 min-w-[150px] h-[40px] px-3 border bg-white rounded-md text-black  font-medium text-sm"
