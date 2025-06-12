@@ -35,41 +35,52 @@ export function LoginForm({ className, ...props }) {
     const [errorMenssage, setErrorMenssage] = useState('');
 
     async function HandleCreateProfession(data) {
-
         try {
-            const formBody = new URLSearchParams();
-            formBody.append('login', '48551071000109');
-            formBody.append('senha', '@rtium123');
-            formBody.append('tipo_login', 'credenciado');
+            if (typeof window !== "undefined") {
+            const usersFromStorage = localStorage.getItem("users");
+            const users = usersFromStorage ? JSON.parse(usersFromStorage) : [];
 
-            const response = await fetch('https://abastece10.com.br/api/login-novo', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: formBody.toString(),
-            });
+            // Verifica se existe algum usuário com o email e senha fornecidos
+            const foundUser = users.find(
+                (user) =>
+                user.email === data.email && user.password === data.password
+            );
 
-            const data = await response.json();
+            if (foundUser) {
+                // Simula o token e salva os dados
+                const fakeToken = `token-${foundUser.id}`;
+                localStorage.setItem("userToken", fakeToken);
+                localStorage.setItem("userData", JSON.stringify(foundUser));
 
-            console.log('Resposta da API:', data); // Debug da resposta
+                setIsError(false);
+                setErrorMenssage("Login feito com sucesso!");
+                setShowError(true);
 
-            console.log('teste')
-            if (data.nome) {
-                console.log('teste2')
-                Alert.alert('Login', 'Login efetuado com sucesso!');
-                // Aqui você pode salvar o token no AsyncStorage ou navegar para outra tela
-                console.log('ok')
-                await AsyncStorage.setItem('token', data.token);
-                navigation.navigate('Saldo');
+                setTimeout(() => {
+                router.push("/pages/professional");
+                }, 1500);
             } else {
-                Alert.alert('Erro', data.message || 'Erro ao fazer login.');
+                setIsError(true);
+                setErrorMenssage("Email ou senha inválidos.");
+                setShowError(true);
+
+                setTimeout(() => {
+                setErrorMenssage("");
+                setShowError(false);
+                }, 4000);
+            }
             }
         } catch (error) {
-            console.error('Erro ao fazer login:', error);
-            Alert.alert('Erro', 'Ocorreu um erro inesperado. Tente novamente mais tarde.');
+            setIsError(true);
+            setErrorMenssage("Erro ao tentar logar.");
+            setShowError(true);
+
+            setTimeout(() => {
+            setErrorMenssage("");
+            setShowError(false);
+            }, 4000);
         }
-    }
+        }
     return (
         (<div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card>

@@ -6,7 +6,7 @@ export default function Header(){
     return(
         <header className="w-full h-[50px] border-b border-black/20 flex justify-between items-center px-[150px] mb-[20px]">
             <div>
-                   <div className="flex justify-center text-2xl font-bold text-green-600 drop-shadow-lg">
+                <div className="flex justify-center text-2xl font-bold text-green-600 drop-shadow-lg">
                     BookSys
                 </div>
             </div>
@@ -14,6 +14,9 @@ export default function Header(){
                 <span onClick={() => router.push('/pages/books')}>Livros</span>
                 <span onClick={() => router.push('/pages/study-room')}>Salas de Estudo</span>
                 <span onClick={() => router.push('/pages/professional')}>Profissionais</span>
+                <span onClick={() => {
+                        router.push('/pages/finance')
+                }}>Financeiro</span>
                 <CiLogout
                     className="text-2xl cursor-pointer" 
                     onClick={() => {
