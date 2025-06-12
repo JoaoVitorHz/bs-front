@@ -95,6 +95,9 @@ export function Register({ className, ...props}) {
     (<div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
+             <div className="flex justify-center text-4xl font-bold text-green-600 drop-shadow-lg">
+                    BookSys
+                </div>
             <CardTitle>
                 Criar conta
             </CardTitle>
